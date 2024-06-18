@@ -1,9 +1,8 @@
-#title {
-    width: 100vw;
-    text-align: center;
-}
-
-#petri-dish {
+.main {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100vw;
 }

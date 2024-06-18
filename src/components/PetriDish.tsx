@@ -1,13 +1,13 @@
 import "./PetriDish.css";
-import { useState } from "react";
+import bacteria from "../assets/img/bacteria.png";
 
-const PetriDish = () => {
-    const gridSize: number = 20;
-
-    const [cells, setCells] = useState(
-        Array(gridSize).fill(Array(gridSize).fill(false))
-    );
-
+const PetriDish = ({
+    cells,
+    setCells,
+}: {
+    cells: Array<Array<boolean>>;
+    setCells: React.Dispatch<React.SetStateAction<boolean[]>[]>;
+}) => {
     const handleClick = (row: number, col: number) => {
         const newCells = cells.map((r, rowIndex) =>
             r.map((cell: any, colIndex: any) =>
@@ -27,7 +27,9 @@ const PetriDish = () => {
                             className="cell"
                             onClick={() => handleClick(rowIndex, colIndex)}
                         >
-                            {cell && <div className="circle"></div>}
+                            {cell && (
+                                <img src={bacteria} className="bacteria" />
+                            )}
                         </div>
                     ))}
                 </div>
