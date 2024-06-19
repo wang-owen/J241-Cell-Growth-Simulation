@@ -4,12 +4,13 @@ import PetriDish from "./components/PetriDish";
 import Controls from "./components/Controls";
 
 function App() {
-    const gridSize: number = 20;
+    const defaultGridSize: number = 20;
+    const [gridSize, setGridSize] = useState<number>(defaultGridSize);
     const [cells, setCells] = useState(
-        Array(gridSize).fill(Array(gridSize).fill(false))
+        Array(defaultGridSize).fill(Array(defaultGridSize).fill(false))
     );
-    const [timeInterval, setTimeInterval] = useState(1);
-    const [running, setRunning] = useState(false);
+    const [timeInterval, setTimeInterval] = useState<number>(1);
+    const [running, setRunning] = useState<boolean>(false);
     const intervalRef = useRef<number>(-1);
 
     const startSim = () => {
@@ -55,6 +56,9 @@ function App() {
             if (Number.isNaN(timeInterval) || timeInterval < 1) {
                 setRunning(false);
                 alert("Time interval must be at least 1");
+            } else if (Number.isNaN(gridSize) || gridSize < 1) {
+                setRunning(false);
+                alert("Grid size must be at least 1");
             } else {
                 intervalRef.current = startSim();
             }
@@ -70,7 +74,7 @@ function App() {
             <div className="main">
                 <PetriDish cells={cells} setCells={setCells} />
                 <Controls
-                    gridSize={gridSize}
+                    setGridSize={setGridSize}
                     setCells={setCells}
                     setTimeInterval={setTimeInterval}
                     running={running}
