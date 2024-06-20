@@ -5,10 +5,10 @@ import Controls from "./components/Controls";
 import Graph from "./components/Graph";
 
 function App() {
-    const defaultGridSize: number = 20;
-    const [gridSize, setGridSize] = useState<number>(defaultGridSize);
+    const defaultGridSize: number[] = [20, 20];
+    const [gridSize, setGridSize] = useState<number[]>(defaultGridSize);
     const [cells, setCells] = useState(
-        Array(defaultGridSize).fill(Array(defaultGridSize).fill(false))
+        Array(defaultGridSize[0]).fill(Array(defaultGridSize[1]).fill(false))
     );
     const [timeInterval, setTimeInterval] = useState<number>(1);
     const [running, setRunning] = useState<boolean>(false);
@@ -83,7 +83,12 @@ function App() {
             if (Number.isNaN(timeInterval) || timeInterval < 1) {
                 setRunning(false);
                 alert("Time interval must be at least 1");
-            } else if (Number.isNaN(gridSize) || gridSize < 1) {
+            } else if (
+                Number.isNaN(gridSize[0]) ||
+                gridSize[0] < 1 ||
+                Number.isNaN(gridSize[1]) ||
+                gridSize[1] < 1
+            ) {
                 setRunning(false);
                 alert("Grid size must be at least 1");
             } else {
@@ -101,6 +106,7 @@ function App() {
             <div className="main">
                 <PetriDish cells={cells} setCells={setCells} />
                 <Controls
+                    gridSize={gridSize}
                     setGridSize={setGridSize}
                     setCells={setCells}
                     setTimeInterval={setTimeInterval}

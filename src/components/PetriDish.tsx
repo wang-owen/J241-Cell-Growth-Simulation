@@ -17,7 +17,8 @@ const PetriDish = ({
         setCells(newCells);
     };
 
-    const cellWidth = window.innerHeight / 1.25 / cells.length;
+    const cellWidth =
+        window.innerHeight / 1.25 / Math.max(cells.length, cells[0].length);
     return (
         <div className="grid">
             {cells.map((row, rowIndex) => (

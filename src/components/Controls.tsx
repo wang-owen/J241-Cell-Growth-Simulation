@@ -1,6 +1,7 @@
 import "./Controls.css";
 
 const Controls = ({
+    gridSize,
     setGridSize,
     setCells,
     setTimeInterval,
@@ -9,7 +10,8 @@ const Controls = ({
     time,
     setGrowthCoords,
 }: {
-    setGridSize: React.Dispatch<React.SetStateAction<number>>;
+    gridSize: number[];
+    setGridSize: React.Dispatch<React.SetStateAction<number[]>>;
     setCells: React.Dispatch<React.SetStateAction<boolean[]>[]>;
     setTimeInterval: React.Dispatch<React.SetStateAction<number>>;
     running: boolean;
@@ -19,7 +21,7 @@ const Controls = ({
 }) => {
     const reset = () => {
         setTimeInterval(1);
-        setGridSize(20);
+        setGridSize([20, 20]);
         setCells(Array(20).fill(Array(20).fill(false)));
         setRunning(false);
         time.current = 0;
@@ -84,11 +86,32 @@ const Controls = ({
                     id="gridSizeInput"
                     onChange={(event) => {
                         const newGridSize = parseInt(event.target.value);
-                        setGridSize(newGridSize);
+                        setGridSize([gridSize[0], newGridSize]);
+                        if (!Number.isNaN(newGridSize) && newGridSize > 0) {
+                            setCells(
+                                Array(gridSize[0]).fill(
+                                    Array(newGridSize).fill(false)
+                                )
+                            );
+                        }
+                    }}
+                    type="number"
+                    min={1}
+                    step={1}
+                    defaultValue={20}
+                    placeholder="Grid Size"
+                    required
+                    disabled={running}
+                ></input>
+                <input
+                    id="gridSizeInput"
+                    onChange={(event) => {
+                        const newGridSize = parseInt(event.target.value);
+                        setGridSize([newGridSize, gridSize[1]]);
                         if (!Number.isNaN(newGridSize) && newGridSize > 0) {
                             setCells(
                                 Array(newGridSize).fill(
-                                    Array(newGridSize).fill(false)
+                                    Array(gridSize[1]).fill(false)
                                 )
                             );
                         }
