@@ -25,6 +25,15 @@ const PetriDish = ({
                         <div
                             key={colIndex}
                             className="cell"
+                            style={{
+                                // Dynamic cell size based on window size
+                                height: `${
+                                    window.innerHeight / 1.25 / cells.length
+                                }px`,
+                                width: `${
+                                    window.innerHeight / 1.25 / cells.length
+                                }px`,
+                            }}
                             onClick={() => handleClick(rowIndex, colIndex)}
                         >
                             {cell && (

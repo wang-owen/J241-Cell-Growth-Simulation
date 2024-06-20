@@ -2,6 +2,7 @@ import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import PetriDish from "./components/PetriDish";
 import Controls from "./components/Controls";
+import Graph from "./components/Graph";
 
 function App() {
     const defaultGridSize: number = 20;
@@ -13,13 +14,22 @@ function App() {
     const [running, setRunning] = useState<boolean>(false);
     const intervalRef = useRef<number>(-1);
 
+    const [growthCoords, setGrowthCoords] = useState<number[][]>([]);
+    const time = useRef<number>(0);
+
     const startSim = () => {
         return setInterval(() => {
+            let cellCount = 0;
+            let initCount = true;
             setCells((prevCells) => {
                 const newCells = prevCells.map((row) => row.slice());
                 for (let i = 0; i < prevCells.length; i++) {
                     for (let j = 0; j < prevCells[i].length; j++) {
                         if (prevCells[i][j]) {
+                            if (initCount) {
+                                cellCount++;
+                            }
+
                             let empty = [];
                             if (j > 0 && !prevCells[i][j - 1])
                                 empty.push([i, j - 1]); // Left
@@ -42,12 +52,21 @@ function App() {
                                         Math.floor(Math.random() * empty.length)
                                     ];
                                 newCells[spreadI][spreadJ] = true;
+                                cellCount++;
                             }
                         }
                     }
                 }
+                if (initCount) {
+                    initCount = false;
+                }
                 return newCells;
             });
+            setGrowthCoords((prevCoords) => {
+                const coords = [...prevCoords, [time.current, cellCount]];
+                return coords;
+            });
+            time.current += timeInterval;
         }, timeInterval * 1000);
     };
 
@@ -79,7 +98,10 @@ function App() {
                     setTimeInterval={setTimeInterval}
                     running={running}
                     setRunning={setRunning}
+                    time={time}
+                    setGrowthCoords={setGrowthCoords}
                 />
+                <Graph coords={growthCoords} />
             </div>
         </>
     );

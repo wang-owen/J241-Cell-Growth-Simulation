@@ -1,7 +1,11 @@
 #controls {
-    margin: 25px;
+    margin: 1.5em;
     display: flex;
-    gap: 10px;
+    gap: 4em;
+}
+
+#controls input {
+    max-width: fit-content;
 }
 
 input {
