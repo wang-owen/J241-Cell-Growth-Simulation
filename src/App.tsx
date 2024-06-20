@@ -18,16 +18,17 @@ function App() {
     const time = useRef<number>(0);
 
     const startSim = () => {
+        let initCount = true;
+        let initCellCount = 0;
         return setInterval(() => {
             let cellCount = 0;
-            let initCount = true;
             setCells((prevCells) => {
                 const newCells = prevCells.map((row) => row.slice());
                 for (let i = 0; i < prevCells.length; i++) {
                     for (let j = 0; j < prevCells[i].length; j++) {
                         if (prevCells[i][j]) {
                             if (initCount) {
-                                cellCount++;
+                                initCellCount++;
                             }
 
                             let empty = [];
@@ -59,14 +60,21 @@ function App() {
                 }
                 if (initCount) {
                     initCount = false;
+                    setGrowthCoords((prevCoords) => {
+                        const coords = [
+                            ...prevCoords,
+                            [time.current, initCellCount],
+                        ];
+                        return coords;
+                    });
                 }
                 return newCells;
             });
+            time.current += timeInterval;
             setGrowthCoords((prevCoords) => {
                 const coords = [...prevCoords, [time.current, cellCount]];
                 return coords;
             });
-            time.current += timeInterval;
         }, timeInterval * 1000);
     };
 

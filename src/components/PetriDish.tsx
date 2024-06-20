@@ -17,6 +17,7 @@ const PetriDish = ({
         setCells(newCells);
     };
 
+    const cellWidth = window.innerHeight / 1.25 / cells.length;
     return (
         <div className="grid">
             {cells.map((row, rowIndex) => (
@@ -27,17 +28,20 @@ const PetriDish = ({
                             className="cell"
                             style={{
                                 // Dynamic cell size based on window size
-                                height: `${
-                                    window.innerHeight / 1.25 / cells.length
-                                }px`,
-                                width: `${
-                                    window.innerHeight / 1.25 / cells.length
-                                }px`,
+                                width: `${cellWidth}px`,
+                                height: `${cellWidth}px`,
                             }}
                             onClick={() => handleClick(rowIndex, colIndex)}
                         >
                             {cell && (
-                                <img src={bacteria} className="bacteria" />
+                                <img
+                                    src={bacteria}
+                                    className="bacteria"
+                                    style={{
+                                        width: `${cellWidth}px`,
+                                        height: `${cellWidth}px`,
+                                    }}
+                                />
                             )}
                         </div>
                     ))}
