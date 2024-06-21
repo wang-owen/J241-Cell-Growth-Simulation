@@ -21,17 +21,10 @@ const Controls = ({
 }) => {
     const reset = () => {
         setTimeInterval(1);
-        setGridSize([20, 20]);
-        setCells(Array(20).fill(Array(20).fill(false)));
+        setCells(Array(gridSize[0]).fill(Array(gridSize[1]).fill(false)));
         setRunning(false);
         time.current = 0;
         setGrowthCoords([]);
-
-        (document.getElementById(
-            "timeIntervalInput"
-        ) as HTMLInputElement)!.value = "1";
-        (document.getElementById("gridSizeInput") as HTMLInputElement)!.value =
-            "20";
     };
 
     document.querySelectorAll("input")?.forEach((input) =>
@@ -83,7 +76,7 @@ const Controls = ({
             </div>
             <div>
                 <input
-                    id="gridSizeInput"
+                    id="gridSizeInputX"
                     onChange={(event) => {
                         const newGridSize = parseInt(event.target.value);
                         setGridSize([gridSize[0], newGridSize]);
@@ -99,12 +92,12 @@ const Controls = ({
                     min={1}
                     step={1}
                     defaultValue={20}
-                    placeholder="Grid Size"
+                    placeholder="Grid X Size"
                     required
                     disabled={running}
                 ></input>
                 <input
-                    id="gridSizeInput"
+                    id="gridSizeInputY"
                     onChange={(event) => {
                         const newGridSize = parseInt(event.target.value);
                         setGridSize([newGridSize, gridSize[1]]);
@@ -120,12 +113,12 @@ const Controls = ({
                     min={1}
                     step={1}
                     defaultValue={20}
-                    placeholder="Grid Size"
+                    placeholder="Grid Y Size"
                     required
                     disabled={running}
                 ></input>
                 <br />
-                <label htmlFor="gridSizeInput">Grid Size</label>
+                <label>Grid Size</label>
             </div>
         </div>
     );
