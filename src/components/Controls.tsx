@@ -7,8 +7,8 @@ const Controls = ({
     setTimeInterval,
     running,
     setRunning,
-    time,
     setGrowthCoords,
+    countInitRef,
 }: {
     gridSize: number[];
     setGridSize: React.Dispatch<React.SetStateAction<number[]>>;
@@ -16,17 +16,10 @@ const Controls = ({
     setTimeInterval: React.Dispatch<React.SetStateAction<number>>;
     running: boolean;
     setRunning: React.Dispatch<React.SetStateAction<boolean>>;
-    time: React.MutableRefObject<number>;
-    setGrowthCoords: React.Dispatch<React.SetStateAction<number[][]>>;
+    setGrowthCoords: React.Dispatch<React.SetStateAction<number[]>>;
+    countInitRef: React.MutableRefObject<boolean>;
 }) => {
-    const reset = () => {
-        setTimeInterval(1);
-        setCells(Array(gridSize[0]).fill(Array(gridSize[1]).fill(false)));
-        setRunning(false);
-        time.current = 0;
-        setGrowthCoords([]);
-    };
-
+    // Prevent invalid field entries
     document.querySelectorAll("input")?.forEach((input) =>
         input.addEventListener("keydown", function (event) {
             if (
@@ -42,6 +35,7 @@ const Controls = ({
         })
     );
 
+    // Add keyboard support
     document.addEventListener("keydown", function (event) {
         if (event.key === " ") {
             event.preventDefault();
@@ -50,6 +44,15 @@ const Controls = ({
             reset();
         }
     });
+
+    // Reset grid
+    const reset = (): void => {
+        setTimeInterval(1);
+        setCells(Array(gridSize[0]).fill(Array(gridSize[1]).fill(false)));
+        setRunning(false);
+        setGrowthCoords([]);
+        countInitRef.current = true;
+    };
 
     return (
         <div id="controls">

@@ -5,25 +5,28 @@ const PetriDish = ({
     cells,
     setCells,
 }: {
-    cells: Array<Array<boolean>>;
+    cells: boolean[][];
     setCells: React.Dispatch<React.SetStateAction<boolean[]>[]>;
 }) => {
-    const handleClick = (row: number, col: number) => {
+    // Add/remove bacteria on click
+    const handleClick = (row: number, col: number): void => {
         const newCells = cells.map((r, rowIndex) =>
-            r.map((cell: any, colIndex: any) =>
+            r.map((cell: boolean, colIndex: number) =>
                 rowIndex === row && colIndex === col ? !cell : cell
             )
         );
         setCells(newCells);
     };
 
+    // Calculate cell width dynamically based on window size
     const cellWidth =
         window.innerHeight / 1.25 / Math.max(cells.length, cells[0].length);
+
     return (
         <div className="grid">
             {cells.map((row, rowIndex) => (
                 <div key={rowIndex} className="row">
-                    {row.map((cell: any, colIndex: any) => (
+                    {row.map((cell: boolean, colIndex: number) => (
                         <div
                             key={colIndex}
                             className="cell"

@@ -1,5 +1,14 @@
-const Graph = ({ coords }: { coords: number[][] }) => {
-    const drawGraph = (coords: Array<Array<number>>) => {
+import "./Graph.css";
+
+const Graph = ({
+    timeInterval,
+    coords,
+}: {
+    timeInterval: number;
+    coords: number[];
+}) => {
+    const drawGraph = (timeInterval: number, coords: number[]): void => {
+        let time = 0;
         const canvas = document.getElementById("canvas") as HTMLCanvasElement;
         if (canvas && canvas.getContext) {
             const context = canvas.getContext("2d");
@@ -15,86 +24,48 @@ const Graph = ({ coords }: { coords: number[][] }) => {
                 context.moveTo(0, canvas.height);
                 coords.forEach((coord) => {
                     // Draw coordinate on canvas
-                    context.lineTo(coord[0] * 10, canvas.height - coord[1]);
+                    context.lineTo(time * 10, canvas.height - coord);
                     context.stroke();
+                    time += timeInterval;
                 });
             }
         }
     };
 
-    drawGraph(coords);
+    drawGraph(timeInterval, coords);
 
     return (
         <div>
             <h2>Bacteria population over time</h2>
-            <div
-                style={{
-                    float: "left",
-                    display: "flex",
-                    height: "509px",
-                    borderRight: "solid white",
-                    gap: "1.5em",
-                }}
-            >
-                <label
-                    style={{
-                        writingMode: "vertical-rl",
-                        transform: "rotate(180deg)",
-                    }}
-                >
-                    Bacteria Count
-                </label>
-                <div
-                    style={{
-                        alignItems: "end",
-                        display: "flex",
-                        flexDirection: "column-reverse",
-                        padding: "3px",
-                    }}
-                >
-                    {coords.map((coord) => {
+            <div id="x-axis">
+                <label id="x-axis-label">Bacteria Count</label>
+                <div id="x-axis-ticks">
+                    {coords.map((coord, i) => {
                         return (
                             <label
-                                key={coord[0]}
+                                key={i * timeInterval}
+                                className="x-axis-tick"
                                 style={{
-                                    position: "absolute",
-                                    margin: 0,
-                                    marginBottom: `${coord[1]}px`,
-                                    fontSize: "8px",
+                                    marginBottom: `${coord}px`,
                                 }}
                             >
-                                {coord[1]}
+                                {coord}
                             </label>
                         );
                     })}
                 </div>
             </div>
             <canvas id="canvas" width={500} height={500}></canvas>
-            <div style={{ width: "100%" }}>
-                <div
-                    style={{
-                        width: "500px",
-                        float: "right",
-                        borderTop: "solid white",
-                    }}
-                >
-                    <div
-                        style={{
-                            display: "flex",
-                            fontSize: "10px",
-                            gap: "40px",
-                        }}
-                    >
-                        <label>0</label>
-                        <label>5</label>
-                        <label>10</label>
-                        <label>15</label>
-                        <label>20</label>
-                        <label>25</label>
-                        <label>30</label>
-                        <label>35</label>
-                        <label>40</label>
-                        <label>45</label>
+            <div id="y-axis">
+                <div id="y-axis-label">
+                    <div id="y-axis-ticks">
+                        {coords.map((_, i) => {
+                            return (
+                                <label key={timeInterval * i}>
+                                    {timeInterval * i}
+                                </label>
+                            );
+                        })}
                     </div>
                     <label>Time (s)</label>
                 </div>
