@@ -55,7 +55,7 @@ const Graph = ({
 
     return (
         <div>
-            <h2>Bacteria population over time</h2>
+            <h2>Bacteria growth rate over time</h2>
             <div
                 id="y-axis"
                 style={{

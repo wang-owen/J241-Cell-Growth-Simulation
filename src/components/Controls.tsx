@@ -61,73 +61,80 @@ const Controls = ({
     };
 
     return (
-        <div id="controls">
-            <button onClick={() => setRunning(!running)}>
-                {!running ? "Start" : "Pause"}
-            </button>
-            <button onClick={reset}>Reset</button>
-            <div>
-                <input
-                    id="timeIntervalInput"
-                    onChange={(event) =>
-                        setTimeInterval(parseInt(event.target.value))
-                    }
-                    type="number"
-                    min={1}
-                    step={0.5}
-                    defaultValue={1}
-                    placeholder="Time Interval (s)"
-                    required
-                    disabled={running}
-                ></input>
-                <br />
-                <label htmlFor="timeIntervalInput">Time Interval (s)</label>
+        <div>
+            <div id="controls">
+                <button onClick={() => setRunning(!running)}>
+                    {!running ? "Start" : "Pause"}
+                </button>
+                <button onClick={reset}>Reset</button>
+                <div>
+                    <input
+                        id="timeIntervalInput"
+                        onChange={(event) =>
+                            setTimeInterval(parseInt(event.target.value))
+                        }
+                        type="number"
+                        min={1}
+                        step={0.5}
+                        defaultValue={1}
+                        placeholder="Time Interval (s)"
+                        required
+                        disabled={running}
+                    ></input>
+                    <br />
+                    <label htmlFor="timeIntervalInput">Time Interval (s)</label>
+                </div>
+                <div>
+                    <input
+                        id="gridSizeInputX"
+                        onChange={(event) => {
+                            const newGridSize = parseInt(event.target.value);
+                            setGridSize([gridSize[0], newGridSize]);
+                            if (!Number.isNaN(newGridSize) && newGridSize > 0) {
+                                setCells(
+                                    Array(gridSize[0]).fill(
+                                        Array(newGridSize).fill(false)
+                                    )
+                                );
+                            }
+                        }}
+                        type="number"
+                        min={1}
+                        step={1}
+                        defaultValue={20}
+                        placeholder="Grid X Size"
+                        required
+                        disabled={running}
+                    ></input>
+                    <input
+                        id="gridSizeInputY"
+                        onChange={(event) => {
+                            const newGridSize = parseInt(event.target.value);
+                            setGridSize([newGridSize, gridSize[1]]);
+                            if (!Number.isNaN(newGridSize) && newGridSize > 0) {
+                                setCells(
+                                    Array(newGridSize).fill(
+                                        Array(gridSize[1]).fill(false)
+                                    )
+                                );
+                            }
+                        }}
+                        type="number"
+                        min={1}
+                        step={1}
+                        defaultValue={20}
+                        placeholder="Grid Y Size"
+                        required
+                        disabled={running}
+                    ></input>
+                    <br />
+                    <label>Grid Size</label>
+                </div>
             </div>
             <div>
-                <input
-                    id="gridSizeInputX"
-                    onChange={(event) => {
-                        const newGridSize = parseInt(event.target.value);
-                        setGridSize([gridSize[0], newGridSize]);
-                        if (!Number.isNaN(newGridSize) && newGridSize > 0) {
-                            setCells(
-                                Array(gridSize[0]).fill(
-                                    Array(newGridSize).fill(false)
-                                )
-                            );
-                        }
-                    }}
-                    type="number"
-                    min={1}
-                    step={1}
-                    defaultValue={20}
-                    placeholder="Grid X Size"
-                    required
-                    disabled={running}
-                ></input>
-                <input
-                    id="gridSizeInputY"
-                    onChange={(event) => {
-                        const newGridSize = parseInt(event.target.value);
-                        setGridSize([newGridSize, gridSize[1]]);
-                        if (!Number.isNaN(newGridSize) && newGridSize > 0) {
-                            setCells(
-                                Array(newGridSize).fill(
-                                    Array(gridSize[1]).fill(false)
-                                )
-                            );
-                        }
-                    }}
-                    type="number"
-                    min={1}
-                    step={1}
-                    defaultValue={20}
-                    placeholder="Grid Y Size"
-                    required
-                    disabled={running}
-                ></input>
+                <span>Press SPACE to start/pause</span>
                 <br />
-                <label>Grid Size</label>
+                <span>Press R to reset</span>
             </div>
         </div>
     );
