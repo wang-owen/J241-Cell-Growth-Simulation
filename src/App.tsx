@@ -17,25 +17,16 @@ function App() {
     const intervalRef = useRef<number>(-1);
 
     // Graph vars
-    const [growthCoords, setGrowthCoords] = useState<number[]>([]);
-    const cellCountRef = useRef<number>(0);
-    const countInitRef = useRef<boolean>(true);
+    const [growthCounts, setGrowthCounts] = useState<number[]>([0]);
 
     const split = (): void => {
-        let initCellCount: number = 0;
+        let growthCount: number = 0;
         setCells((prevCells) => {
             const newCells = prevCells.map((row) => row.slice());
-            console.log(newCells);
             // Loop through each cell
             for (let i = 0; i < prevCells.length; i++) {
                 for (let j = 0; j < prevCells[i].length; j++) {
                     if (prevCells[i][j]) {
-                        // Count initial bacteria population
-                        if (countInitRef.current) {
-                            initCellCount++;
-                            cellCountRef.current++;
-                        }
-
                         // Determine empty cells next to existing bacteria
                         let empty = [];
                         // Left
@@ -63,7 +54,7 @@ function App() {
                             const [a, b] =
                                 empty[Math.floor(Math.random() * empty.length)];
                             newCells[a][b] = true;
-                            cellCountRef.current++;
+                            growthCount++;
                         }
                     }
                 }
@@ -71,15 +62,9 @@ function App() {
             return newCells;
         });
 
-        // Write initial cell count to graph
-        if (countInitRef.current) {
-            countInitRef.current = false;
-            setGrowthCoords([0, initCellCount]);
-        }
-
         // Write cell count after split to graph
-        setGrowthCoords((prevCoords) => {
-            return [...prevCoords, cellCountRef.current];
+        setGrowthCounts((prevGrowthCount) => {
+            return [...prevGrowthCount, growthCount];
         });
     };
 
@@ -113,7 +98,7 @@ function App() {
     }, [running]);
 
     return (
-        <>
+        <main>
             <div className="main">
                 <PetriDish cells={cells} setCells={setCells} />
                 <Controls
@@ -123,12 +108,15 @@ function App() {
                     setTimeInterval={setTimeInterval}
                     running={running}
                     setRunning={setRunning}
-                    setGrowthCoords={setGrowthCoords}
-                    countInitRef={countInitRef}
+                    setGrowthCounts={setGrowthCounts}
                 />
-                <Graph timeInterval={timeInterval} coords={growthCoords} />
+                <Graph
+                    timeInterval={timeInterval}
+                    coords={growthCounts}
+                    gridSize={gridSize}
+                />
             </div>
-        </>
+        </main>
     );
 }
 

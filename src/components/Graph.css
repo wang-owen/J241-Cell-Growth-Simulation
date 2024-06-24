@@ -1,41 +1,35 @@
-#x-axis {
-    float: left;
-    display: flex;
-    height: 509px;
-    border-right: solid white;
-    gap: 1.5em;
+#canvas {
+    border-bottom: solid white;
+    border-left: solid white;
 }
 
-#x-axis-label {
+#y-axis {
+    float: left;
+    display: flex;
+    gap: 1.5em;
+    /* overflow: hidden; */
+}
+
+#y-axis-label {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
 }
 
-#x-axis-ticks {
+#y-axis-ticks {
     align-items: end;
     display: flex;
     flex-direction: column-reverse;
-    padding: 3px;
+    margin-right: 10px;
 }
 
-.x-axis-tick {
-    position: absolute;
-    margin: 0;
-    font-size: 8px;
-}
-
-#y-axis {
+#x-axis {
     width: 100%;
 }
 
-#y-axis-label {
-    width: 500px;
+#x-axis-label {
     float: right;
-    border-top: solid white;
 }
 
-#y-axis-ticks {
+#x-axis-ticks {
     display: flex;
-    font-size: 10px;
-    gap: 10px;
 }

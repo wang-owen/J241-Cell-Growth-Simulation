@@ -7,8 +7,7 @@ const Controls = ({
     setTimeInterval,
     running,
     setRunning,
-    setGrowthCoords,
-    countInitRef,
+    setGrowthCounts,
 }: {
     gridSize: number[];
     setGridSize: React.Dispatch<React.SetStateAction<number[]>>;
@@ -16,8 +15,7 @@ const Controls = ({
     setTimeInterval: React.Dispatch<React.SetStateAction<number>>;
     running: boolean;
     setRunning: React.Dispatch<React.SetStateAction<boolean>>;
-    setGrowthCoords: React.Dispatch<React.SetStateAction<number[]>>;
-    countInitRef: React.MutableRefObject<boolean>;
+    setGrowthCounts: React.Dispatch<React.SetStateAction<number[]>>;
 }) => {
     // Prevent invalid field entries
     document.querySelectorAll("input")?.forEach((input) =>
@@ -50,8 +48,16 @@ const Controls = ({
         setTimeInterval(1);
         setCells(Array(gridSize[0]).fill(Array(gridSize[1]).fill(false)));
         setRunning(false);
-        setGrowthCoords([]);
-        countInitRef.current = true;
+        setGrowthCounts([0]);
+
+        const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+        if (canvas && canvas.getContext) {
+            const context = canvas.getContext("2d");
+            if (context) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                return;
+            }
+        }
     };
 
     return (
