@@ -99,23 +99,21 @@ function App() {
 
     return (
         <main>
-            <div className="main">
-                <PetriDish cells={cells} setCells={setCells} />
-                <Controls
-                    gridSize={gridSize}
-                    setGridSize={setGridSize}
-                    setCells={setCells}
-                    setTimeInterval={setTimeInterval}
-                    running={running}
-                    setRunning={setRunning}
-                    setGrowthCounts={setGrowthCounts}
-                />
-                <Graph
-                    timeInterval={timeInterval}
-                    coords={growthCounts}
-                    gridSize={gridSize}
-                />
-            </div>
+            <PetriDish cells={cells} setCells={setCells} />
+            <Controls
+                gridSize={gridSize}
+                setGridSize={setGridSize}
+                setCells={setCells}
+                setTimeInterval={setTimeInterval}
+                running={running}
+                setRunning={setRunning}
+                setGrowthCounts={setGrowthCounts}
+            />
+            <Graph
+                timeInterval={timeInterval}
+                coords={growthCounts}
+                gridSize={gridSize}
+            />
         </main>
     );
 }

@@ -7,7 +7,6 @@
     float: left;
     display: flex;
     gap: 1.5em;
-    /* overflow: hidden; */
 }
 
 #y-axis-label {
